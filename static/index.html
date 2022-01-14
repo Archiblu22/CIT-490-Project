@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book App | Home</title>
+    <link rel="stylesheet" href="./css/main.css">
+
+</head>
+
+<body>
+    <nav>
+        <div class="backdrop"></div>
+        <header class="main-header">
+            <button id="side-menu-toggle">Menu</button>
+            <nav class="main-header__nav">
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <a href="./index.html">Home</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a href="./mylibrary.html">My Library</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a href="./search.html">Search</a>
+                    </li>
+                </ul>
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <form action="/logout" method="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <nav class="mobile-nav">
+            <ul class="mobile-nav__item-list">
+                <li class="mobile-nav__item">
+                    <a href="./index.html">Home</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="./mylibrary.html">My Library</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="./search.html">Search</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </nav>
+    <main>
+        
+    </main>
+    <script src="./js/main.js"></script>
+    <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
+</body>
+
+</html>

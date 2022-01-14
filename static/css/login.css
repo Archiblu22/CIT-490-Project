@@ -1,0 +1,178 @@
+body {
+  background-color: #1b4b47;
+}
+
+.login-body {
+  display: block;
+}
+
+.login-page {
+  display: grid;
+  grid-template-rows: 1fr;
+  height: 100vh;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 95%;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-form input {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: rgb(184, 184, 184) solid 2px;
+  border-radius: 0.35rem;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fefefe;
+  border-radius: 7px;
+  width: 50%;
+  align-self: center;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.form-wrapper a {
+  text-align: center;
+}
+
+.form-wrapper h1 {
+  margin: 0 auto 0.5rem;
+}
+
+.signup-page {
+  display: grid;
+  grid-template-rows: 1fr;
+  height: 100vh;
+}
+
+.login-form input[type="email"]:valid,
+.login-form input[type="password"]:valid,
+.login-form input[type="firstName"]:valid,
+.login-form input[type="lastName"]:valid {
+  border: rgb(0, 255, 0) solid 2px;
+}
+
+.login-form input:invalid:not(:focus):not(:placeholder-shown) {
+  border: rgb(255, 0, 0) solid 2px;
+}
+
+.login-form input[type="confirmPassword"]:focus-visible {
+  outline: none;
+}
+
+#matchingMessage p {
+  font-size: 0.8rem;
+  margin: 0 auto 0.5rem;
+  color: red;
+}
+
+hr {
+  margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.not-member {
+  display: flex;
+  flex-direction: column;
+}
+
+.not-member > p {
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.btn-filled {
+  background-color: #007981;
+  color: #fefefe;
+  border: 2px solid #007981;
+  border-radius: 0.35rem;
+  padding: 0.5rem;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-filled:hover {
+  background-color: #fefefe;
+  color: #007981;
+  border: 2px solid #007981;
+}
+
+a.btn-hollow {
+  font-size: 0.9rem;
+}
+
+.btn-hollow {
+  background-color: #fefefe;
+  color: #007981;
+  border: 2px solid #007981;
+  border-radius: 0.35rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-hollow:hover {
+  background-color: #007981;
+  color: #fefefe;
+  border: 2px solid #007981;
+}
+
+/* The message box is shown when the user clicks on the password field */
+#passwordInstructions {
+  display: none;
+  background: rgba(231, 231, 231, 1);
+  color: #000;
+  padding: 5px 20px;
+  position: absolute;
+  z-index: 1;
+  width: 130%;
+  opacity: 100;
+  animation: appear 0.5s;
+}
+
+#passwordInstructions p {
+  margin: 1px;
+  padding: 3px 5px;
+  font-size: 14px;
+}
+
+#passwordInstructions h3 {
+  margin: 2px -15px;
+  font-size: 16px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -15px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -15px;
+  content: "✖";
+}
