@@ -176,3 +176,8 @@ a.btn-hollow {
   left: -15px;
   content: "✖";
 }
+
+a {
+  padding-top: 11px;
+  color: #007981;
+}
