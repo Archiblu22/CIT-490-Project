@@ -147,29 +147,13 @@
                 }
             },
             methods: {
-                login() {
+                created() {
                     var self = this;
-
-                    axios.post('/login', { "email": self.email, "password": self.password }).then(
-                        response => {
-                            if (response.data.loggedIn) {
-                                axios.post('/book-list', { id: response.data.id }).then(
-                                    response => {
-                                        self.bookList = response.data
-                                    }
-                                );
-                            }
+                    axios.get(`https://www.googleapis.com/books/v1/volumes?q=Fiction`).then(
+                        respons => {
+                            self.googleBookList = response.data;
                         }
-                    );
-                    return true;
-                },
-            created() {
-                var self = this;
-                axios.get(`https://www.googleapis.com/books/v1/volumes?q=Fiction`).then(
-                    respons => {
-                        self.googleBookList = response.data;
-                    }
-                )
+                    )
             }
             }
         }
