@@ -15,35 +15,41 @@
     <div class="login-page">
         <div class="form-wrapper">
             <h1>Log-in To Your Account</h1>
-            <form class="login-form" action="./home.html">
+            <div class="login-form">
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="email"
                     required />
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                     v-model="password" required />
-                <input type="submit" name="button" class="btn-filled" value="Login" v-on:click="login()" />
-            </form>
+                <button name="button" class="btn-filled" value="Login" v-on:click="login()">Login</button>
+            </div>
             <div class="not-member">
                 <p>Not yet a member?</p>
                 <a class="btn-hollow" href="./signup.html">Create Account</a>
             </div>
         </div>
+
 </body>
 <script>
     const RootComponent = {
         data() {
             return {
-            email: "",
-            password: ""
+                email: "",
+                password: ""
             }
         },
         methods: {
             login() {
-                if (this.email != "" || this.password != "") {
-                    return true;
-                } else {
-                    alert("Please enter a valid username/password")
-                    return false;
-                }
+                var self = this;
+                axios.post('/login', { "email": self.email, "password": self.password }).then(
+                    response => {
+                        if (response.data.loggedIn) {
+                            window.location.assign("/home.html");
+                        } else {
+                            alert("Invalid username/password")
+                        }
+                    }
+                );
+                return true;
             }
         }
     }

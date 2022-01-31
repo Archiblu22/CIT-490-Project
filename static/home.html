@@ -19,7 +19,7 @@
             <nav class="main-header__nav">
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a href="./index.html">Home</a>
+                        <a href="./home.html">Home</a>
                     </li>
                     <li class="main-header__item">
                         <a href="./mylibrary.html">My Library</a>
@@ -42,7 +42,7 @@
         <nav class="mobile-nav">
             <ul class="mobile-nav__item-list">
                 <li class="mobile-nav__item">
-                    <a href="./index.html">Home</a>
+                    <a href="./home.html">Home</a>
                 </li>
                 <li class="mobile-nav__item">
                     <a href="./mylibrary.html">My Library</a>
@@ -68,6 +68,12 @@
         </section>
         <!-- Insert else statement -->
         <h2>No Book Recommendations Yet!</h2>
+        <ul id="example-1">
+            <li v-for="book in googleBookList.items" :key="book.BookId" style="color: red;">
+                {{ book.volumeInfo.title }}
+                <img :src="book.volumeInfo.imageLinks.smallThumbnail"/>
+            </li>
+        </ul>
         <section id="fiction" class="results">
             <div class="flex">
                 <h1 class="section-title">Fiction</h1>
@@ -131,6 +137,43 @@
     </main>
     <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
     <script src="./js/main.js"></script>
+    <script>
+        const RootComponent = {
+            data() {
+                return {
+                    email: "",
+                    password: "",
+                    googleBookList: []
+                }
+            },
+            methods: {
+                login() {
+                    var self = this;
+
+                    axios.post('/login', { "email": self.email, "password": self.password }).then(
+                        response => {
+                            if (response.data.loggedIn) {
+                                axios.post('/book-list', { id: response.data.id }).then(
+                                    response => {
+                                        self.bookList = response.data
+                                    }
+                                );
+                            }
+                        }
+                    );
+                    return true;
+                },
+            created() {
+                var self = this;
+                axios.get(`https://www.googleapis.com/books/v1/volumes?q=Fiction`).then(
+                    respons => {
+                        self.googleBookList = response.data;
+                    }
+                )
+            }
+            }
+        }
+    </script>
 </body>
 
 </html>
