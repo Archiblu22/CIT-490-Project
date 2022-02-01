@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book App | Login</title>
+    <script src="https://www.unpkg.com/vue@3.2.26/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body class="login-body">
+    <nav>
+        <div class="backdrop"></div>
+        <header class="main-header">
+            <button id="side-menu-toggle">Menu</button>
+            <nav class="main-header__nav">
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <a href="./home.html">Home</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a href="./mylibrary.html">My Library</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a href="./results.html">Search</a>
+                    </li>
+                </ul>
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <a href="./index.html">
+                            <button type="submit">Logout</button></a>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <nav class="mobile-nav">
+            <ul class="mobile-nav__item-list">
+                <li class="mobile-nav__item">
+                    <a href="./home.html">Home</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="./mylibrary.html">My Library</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="./results.html">Search</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </nav>
+    <main id="app">
+        <input id="search-box" class="search-box" placeholder="Search books by name, author, genre, etc."
+            aria-label="Search books" v-model="search" />
+        <button v-on:click="results(0)">Search</button>
+        <button v-on:click="showMore()">More</button>
+        <ul id="example-1">
+            <li v-for="book in googleBookList.items" :key="book.BookId" style="color: red;">
+                {{ book.volumeInfo.title }}
+                <!-- <img :src="book.volumeInfo.imageLinks.smallThumbnail" /> -->
+            </li>
+        </ul>
+    </main>
+</body>
+<script>
+    const backdrop = document.querySelector('.backdrop');
+    const sideDrawer = document.querySelector('.mobile-nav');
+    const menuToggle = document.querySelector('#side-menu-toggle');
+
+    function backdropClickHandler() {
+        backdrop.style.display = 'none';
+        sideDrawer.classList.remove('open');
+    }
+
+    function menuToggleClickHandler() {
+        backdrop.style.display = 'block';
+        sideDrawer.classList.add('open');
+    }
+
+    backdrop.addEventListener('click', backdropClickHandler);
+    menuToggle.addEventListener('click', menuToggleClickHandler);
+
+    const RootComponent = {
+        data() {
+            return {
+                search: "",
+                googleBookList: [],
+                startIndex: 0
+            }
+        },
+        methods: {
+            showMore() {
+                var self = this;
+                this.startIndex += 10;
+                this.results(this.startIndex);
+            },
+            results(startIndex) {
+                var self = this;
+                axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=20&startIndex=` + startIndex + `&q=` + this.search).then(
+                    response => {
+                        self.googleBookList = response.data;
+                    })
+            }
+        },
+        created() {
+            var self = this;
+        }
+    }
+
+    const app = Vue.createApp(RootComponent)
+    const vm = app.mount('#app')
+</script>
+
+</html>

@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book App | Home</title>
+    <script src="https://www.unpkg.com/vue@3.2.26/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
     <link rel="stylesheet" href="./css/main.css">
 </head>
 
@@ -14,8 +16,6 @@
         <div class="backdrop"></div>
         <header class="main-header">
             <button id="side-menu-toggle">Menu</button>
-            <input id="mobile-search-box" class="search-box" placeholder="Search books by name, author, genre, etc."
-                aria-label="Search books" />
             <nav class="main-header__nav">
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
@@ -25,8 +25,7 @@
                         <a href="./mylibrary.html">My Library</a>
                     </li>
                     <li class="main-header__item">
-                        <input id="search-box" class="search-box"
-                            placeholder="Search books by name, author, genre, etc." aria-label="Search books" />
+                        <a href="./results.html">Search</a>
                     </li>
                 </ul>
                 <ul class="main-header__item-list">
@@ -48,6 +47,9 @@
                     <a href="./mylibrary.html">My Library</a>
                 </li>
                 <li class="mobile-nav__item">
+                    <a href="./results.html">Search</a>
+                </li>
+                <li class="mobile-nav__item">
                     <form action="/logout" method="post">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit">Logout</button>
@@ -56,9 +58,10 @@
             </ul>
         </nav>
     </nav>
-    <main>
-        <h1>Books For You</h1>
-        <!-- Insert statement if recommended is available then -->
+    <main id="app">
+        <!--STRETCH GOAL
+             <h1>Books For You</h1>
+        Insert statement if recommended is available then
         <section id="recommended" class="results">
             <div class="list-book recommended">
                 <div class="prompt">
@@ -66,12 +69,13 @@
                 </div>
             </div>
         </section>
-        <!-- Insert else statement -->
-        <h2>No Book Recommendations Yet!</h2>
-        <ul id="example-1">
-            <li v-for="book in googleBookList.items" :key="book.BookId" style="color: red;">
+        Insert else statement
+        <h2>No Book Recommendations Yet!</h2> 
+    -->
+        <ul id="example-1" v-for="genre in genres">
+            <li v-for="book in googleBookList[genre].items" :key="book.BookId" style="color: red;">
                 {{ book.volumeInfo.title }}
-                <img :src="book.volumeInfo.imageLinks.smallThumbnail"/>
+                <!-- <img :src="book.volumeInfo.imageLinks.smallThumbnail" /> -->
             </li>
         </ul>
         <section id="fiction" class="results">
@@ -136,27 +140,50 @@
         </section>
     </main>
     <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
-    <script src="./js/main.js"></script>
     <script>
+        const backdrop = document.querySelector('.backdrop');
+        const sideDrawer = document.querySelector('.mobile-nav');
+        const menuToggle = document.querySelector('#side-menu-toggle');
+
+        function backdropClickHandler() {
+            backdrop.style.display = 'none';
+            sideDrawer.classList.remove('open');
+        }
+
+        function menuToggleClickHandler() {
+            backdrop.style.display = 'block';
+            sideDrawer.classList.add('open');
+        }
+
+        backdrop.addEventListener('click', backdropClickHandler);
+        menuToggle.addEventListener('click', menuToggleClickHandler);
+
         const RootComponent = {
             data() {
                 return {
                     email: "",
                     password: "",
-                    googleBookList: []
+                    googleBookList: [],
+                    genres: ["Fiction", "Poetry", "Fantasy", "Romance"]
                 }
             },
             methods: {
-                created() {
-                    var self = this;
-                    axios.get(`https://www.googleapis.com/books/v1/volumes?q=Fiction`).then(
-                        respons => {
-                            self.googleBookList = response.data;
-                        }
-                    )
-            }
+            },
+            created() {
+                var self = this;
+
+                self.genres.forEach(genre => {
+                    self.googleBookList[genre] = [];
+                    axios.get(`https://www.googleapis.com/books/v1/volumes?q=` + genre).then(
+                        response => {
+                            self.googleBookList[genre] = response.data;
+                        })
+                });
             }
         }
+        const app = Vue.createApp(RootComponent)
+        const vm = app.mount('#app')
+
     </script>
 </body>
 
