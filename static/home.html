@@ -19,7 +19,7 @@
             <nav class="main-header__nav">
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a href="./home.html">Home</a>
+                        <a href="./index.html">Home</a>
                     </li>
                     <li class="main-header__item">
                         <a href="./mylibrary.html">My Library</a>
@@ -41,7 +41,7 @@
         <nav class="mobile-nav">
             <ul class="mobile-nav__item-list">
                 <li class="mobile-nav__item">
-                    <a href="./home.html">Home</a>
+                    <a href="./index.html">Home</a>
                 </li>
                 <li class="mobile-nav__item">
                     <a href="./mylibrary.html">My Library</a>
@@ -59,8 +59,8 @@
         </nav>
     </nav>
     <main id="app">
-        <!--STRETCH GOAL
-             <h1>Books For You</h1>
+
+        <!-- STRETCH GOAL <h1>Books For You</h1>
         Insert statement if recommended is available then
         <section id="recommended" class="results">
             <div class="list-book recommended">
@@ -70,16 +70,18 @@
             </div>
         </section>
         Insert else statement
-        <h2>No Book Recommendations Yet!</h2> 
-    -->
+        <h2>No Book Recommendations Yet!</h2> -->
+
         <ul id="example-1" v-for="genre in genres">
-            <li v-for="book in googleBookList[genre].items" :key="book.BookId" style="color: red;">
-                {{ book.volumeInfo.title }}
-                <!-- <img :src="book.volumeInfo.imageLinks.smallThumbnail" /> -->
+            <li v-for="book in googleBookList[genre].items" :key="book.BookId">
+                <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
+                        :src="book.volumeInfo.imageLinks" alt="cover" />
+                    {{ book.volumeInfo.title }}</a>
             </li>
         </ul>
+
         <section id="fiction" class="results">
-            <div class="flex">
+            <div class="flex" id="search-box">
                 <h1 class="section-title">Fiction</h1>
                 <div>
                     <button id="fiction-viewAll" class="seeMore" onclick="next('fiction')">
@@ -140,6 +142,9 @@
         </section>
     </main>
     <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
+
+    <!-- <script src="./js/main.js"></script> -->
+
     <script>
         const backdrop = document.querySelector('.backdrop');
         const sideDrawer = document.querySelector('.mobile-nav');
