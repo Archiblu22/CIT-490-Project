@@ -59,16 +59,23 @@
         </nav>
     </nav>
     <main id="app">
-        <input id="search-box" class="search-box" placeholder="Search books by name, author, genre, etc."
+        <input id="search-box" class="search-box" placeholder="Search by title of the book"
             aria-label="Search books" v-model="search" />
         <button v-on:click="results(0)">Search</button>
         <button v-on:click="showMore()">More</button>
-        <ul id="example-1">
-            <li v-for="book in googleBookList.items" :key="book.BookId" style="color: red;">
-                {{ book.volumeInfo.title }}
-                <!-- <img :src="book.volumeInfo.imageLinks.smallThumbnail" /> -->
-            </li>
-        </ul>
+        <div class="list-book">
+            <div class="book" v-for="book in googleBookList.items" :key="book.BookId">
+                <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
+                        :src="book.volumeInfo.imageLinks" alt="cover" /></a>
+                <div class="book-info">
+                    <h3 class="book-title">
+                        <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
+                    </h3>
+                    <div class="book-authors">{{ book.volumeInfo.authors }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 <script>
@@ -119,5 +126,6 @@
     const app = Vue.createApp(RootComponent)
     const vm = app.mount('#app')
 </script>
+<footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
 
 </html>

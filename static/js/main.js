@@ -52,9 +52,18 @@ const drawChartBook = async (subject, startIndex = 0) => {
     cbookContainer.innerHTML = cdata.items
       .map(
         ({ volumeInfo }) =>
-          `<div class='book'><a href='${volumeInfo.previewLink}' target='_blank'><img class='thumbnail' src='` +
-          extractThumbnail(volumeInfo) +
-          `' alt='cover'></a><div class='book-info'><h3 class='book-title'><a href='${volumeInfo.previewLink}' target='_blank'>${volumeInfo.title}</a></h3><div class='book-authors' onclick='updateFilter(this,"author");'>${volumeInfo.authors}</div></div></div>`
+          `<div class='book'>
+            <a href='${volumeInfo.previewLink}' target='_blank'><img class='thumbnail' src='` + extractThumbnail(volumeInfo) + `' alt='cover'>
+            </a>
+            <div class='book-info'>
+              <h3 class='book-title'>
+                <a href='${volumeInfo.previewLink}' target='_blank'>${volumeInfo.title}
+                </a>
+              </h3>
+                <div class='book-authors' onclick='updateFilter(this,"author");'>${volumeInfo.authors}
+                </div>
+            </div>
+          </div>`
       )
       .join("");
   }

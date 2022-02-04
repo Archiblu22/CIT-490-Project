@@ -72,15 +72,31 @@
         Insert else statement
         <h2>No Book Recommendations Yet!</h2> -->
 
-        <ul id="example-1" v-for="genre in genres">
-            <li v-for="book in googleBookList[genre].items" :key="book.BookId">
-                <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
-                        :src="book.volumeInfo.imageLinks" alt="cover" />
-                    {{ book.volumeInfo.title }}</a>
-            </li>
-        </ul>
+        <section class="results" v-for="genre in genres">
+            <div class="flex" id="search-box">
+                <h1 class="section-title">{{genre}}</h1>
+                <div>
+                    <button id="{{genre}}-viewAll" class="seeMore" onclick="next('{{genre}}')">
+                        See More
+                    </button>
+                </div>
+            </div>
+            <div class="list-book">
+                <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
+                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
+                            :src="book.volumeInfo.imageLinks" alt="cover" /></a>
+                    <div class="book-info">
+                        <h3 class="book-title">
+                            <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
+                        </h3>
+                        <div class="book-authors">{{ book.volumeInfo.authors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="fiction" class="results">
+        <!-- <section id="fiction" class="results">
             <div class="flex" id="search-box">
                 <h1 class="section-title">Fiction</h1>
                 <div>
@@ -139,7 +155,8 @@
                     <div class="loader"></div>
                 </div>
             </div>
-        </section>
+        </section> -->
+        
     </main>
     <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
 
@@ -169,7 +186,8 @@
                     email: "",
                     password: "",
                     googleBookList: [],
-                    genres: ["Fiction", "Poetry", "Fantasy", "Romance"]
+                    genres: ["Fiction", "Poetry", "Fantasy", "Romance"],
+                    startIndex: 0
                 }
             },
             methods: {
