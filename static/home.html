@@ -83,8 +83,8 @@
             </div>
             <div class="list-book">
                 <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
-                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
-                            :src="book.volumeInfo.imageLinks" alt="cover" /></a>
+                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail" v-if="book.volumeInfo.imageLinks"
+                            :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" /></a>
                     <div class="book-info">
                         <h3 class="book-title">
                             <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
@@ -94,6 +94,7 @@
                     </div>
                 </div>
             </div>
+            <hr width="100%">
         </section>
 
         <!-- <section id="fiction" class="results">
@@ -156,7 +157,7 @@
                 </div>
             </div>
         </section> -->
-        
+
     </main>
     <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
 
@@ -186,7 +187,7 @@
                     email: "",
                     password: "",
                     googleBookList: [],
-                    genres: ["Fiction", "Poetry", "Fantasy", "Romance"],
+                    genres: ["Fiction", "Mystery", "Science Fiction", "Romance"],
                     startIndex: 0
                 }
             },
