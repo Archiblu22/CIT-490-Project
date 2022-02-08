@@ -58,37 +58,42 @@
             </ul>
         </nav>
     </nav>
+    <div class="hero-img">
+        <img src="Books-Hero-Image.jpg" alt="book hero image">
+    </div>
     <main>
-        <div class="flex" id="search-box">
-            <input class="search-box" placeholder="Search by title of the book" aria-label="Search books"
-                v-model="search" />
-            <div>
-                <button class="search" v-on:click="results(0)">Search</button>
+        <section class="results">
+            <div class="flex" id="search-box">
+                <input class="search-box" placeholder="Search by title of the book" aria-label="Search books"
+                    v-model="search" />
+                <div>
+                    <button class="search" v-on:click="results(0)">Search</button>
+                </div>
             </div>
-        </div>
-        <div v-if="searched" class="flex" id="search-box">
-            <h2>Search Results For: <br><i>{{search}}</i></h2>
-            <div>
-                <button class="seeMore" v-on:click="showMore()">See More</button>
+            <div v-if="searched" class="flex" id="search-box">
+                <h2>Search Results For: <br><i>{{search}}</i></h2>
+                <div>
+                    <button class="seeMore" v-on:click="showMore()">See More</button>
+                </div>
             </div>
-        </div>
-        <div class="list-book">
-            <div class="book" v-for="book in googleBookList.items" :key="book.BookId">
-                <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
-                        v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover"
-                        width="128" />
-                    <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
-                        width="128" />
-                </a>
-                <div class="book-info">
-                    <h3 class="book-title">
-                        <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
-                    </h3>
-                    <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
+            <div class="list-book">
+                <div class="book" v-for="book in googleBookList.items" :key="book.BookId">
+                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
+                            v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
+                            alt="cover" width="128" />
+                        <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
+                            width="128" />
+                    </a>
+                    <div class="book-info">
+                        <h3 class="book-title">
+                            <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
+                        </h3>
+                        <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
     <div class="footer">
         <p v-if="searched" class="top"><a href="#app">Back to top</a></p>

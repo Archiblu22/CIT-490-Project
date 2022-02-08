@@ -185,6 +185,15 @@ h2 {
   display: none;
 }
 
+/* HERO IMAGE */
+.hero-img img {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: -5px;
+}
+
+
 /* GENRES */
 .results {
   position: relative;
@@ -330,5 +339,10 @@ h2 {
   }
   .top {
     display: none;
+  }
+  .results {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
   }
 }
