@@ -76,20 +76,25 @@
             <div class="flex" id="search-box">
                 <h1 class="section-title">{{genre}}</h1>
                 <div>
-                    <button id="{{genre}}-viewAll" class="seeMore" onclick="next('{{genre}}')">
+                    <button id="{{genre}}-viewAll" class="seeMore" :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'
+                    ">
                         See More
                     </button>
                 </div>
             </div>
             <div class="list-book">
                 <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
-                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail" v-if="book.volumeInfo.imageLinks"
-                            :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" /></a>
+                    <!-- <a :href="'https://www.amazon.com/s?k=' + book.volumeInfo.title + '&i=stripbooks'" target="_blank" >Search on Amazon</a> -->
+                    <a :href="book.volumeInfo.previewLink" target="_blank">
+                        <img class="thumbnail"
+                            v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
+                            alt="cover" />
+                    </a>
                     <div class="book-info">
                         <h3 class="book-title">
                             <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
                         </h3>
-                        <div class="book-authors">{{ book.volumeInfo.authors }}
+                        <div class="book-authors">{{ book.volumeInfo.authors[0] }}
                         </div>
                     </div>
                 </div>
@@ -159,7 +164,7 @@
         </section> -->
 
     </main>
-    <footer>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</footer>
+    <div class="footer">&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</div>
 
     <!-- <script src="./js/main.js"></script> -->
 
@@ -187,8 +192,7 @@
                     email: "",
                     password: "",
                     googleBookList: [],
-                    genres: ["Fiction", "Mystery", "Science Fiction", "Romance"],
-                    startIndex: 0
+                    genres: ["Fiction", "Mystery", "Science Fiction", "Romance"]
                 }
             },
             methods: {
@@ -198,7 +202,7 @@
 
                 self.genres.forEach(genre => {
                     self.googleBookList[genre] = [];
-                    axios.get(`https://www.googleapis.com/books/v1/volumes?q=` + genre).then(
+                    axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=4&q=` + genre).then(
                         response => {
                             self.googleBookList[genre] = response.data;
                         })
