@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book App | Search</title>
+    <title>Book App | Book View</title>
     <script src="https://www.unpkg.com/vue@3.2.26/dist/vue.global.prod.js"></script>
     <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
     <link rel="stylesheet" href="./css/main.css">
@@ -58,24 +58,9 @@
             </ul>
         </nav>
     </nav>
-    <div class="hero-img">
-        <img src="Books-Hero-Image.jpg" alt="book hero image">
-    </div>
     <main id="app">
-        <section class="results">
-            <div class="flex" id="search-box">
-                <input class="search-box" placeholder="Search by title of the book" aria-label="Search books"
-                    v-model="search" />
-                <div>
-                    <button class="search" v-on:click="results(0)">Search</button>
-                </div>
-            </div>
-            <div v-if="searched" class="flex" id="search-box">
-                <h2>Search Results For: <br><i>{{search}}</i></h2>
-                <div>
-                    <button class="seeMore" v-on:click="showMore()">See More</button>
-                </div>
-            </div>
+        <section>
+            <h1>404: Work in Progress</h1>
             <div class="list-book">
                 <div class="book" v-for="book in googleBookList.items" :key="book.BookId">
                     <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
@@ -91,16 +76,15 @@
                         <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
                         </div>
                     </div>
+                    <!-- <a :href="'https://www.amazon.com/s?k=' + book.volumeInfo.title + '&i=stripbooks'" target="_blank" >Search on Amazon</a> -->
                 </div>
             </div>
         </section>
     </main>
-    <div class="footer">
-        <p v-if="searched" class="top"><a href="#app">Back to top</a></p>
-        <p>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</p>
-    </div>
-</body>
 
+    <div class="footer">&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</div>
+
+</body>
 <script>
     const backdrop = document.querySelector('.backdrop');
     const sideDrawer = document.querySelector('.mobile-nav');
@@ -122,36 +106,15 @@
     const RootComponent = {
         data() {
             return {
-                search: "",
-                googleBookList: [],
-                startIndex: 0,
-                searched: false
+                googleBookList: []
             }
         },
         methods: {
-            showMore() {
-                var self = this;
-                this.startIndex += 16;
-                this.results(this.startIndex);
-            },
-            results(startIndex) {
-                var self = this;
-                axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=16&startIndex=` + startIndex + `&q=` + this.search).then(
-                    response => {
-                        self.searched = true;
-                        self.googleBookList = response.data;
-                    })
-            }
         },
         created() {
             var self = this;
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const genre = urlParams.get('genre') //get('id') in the view-book.html axios.get(`https://www.googleapis.com/books/v1/volumes/ + this.id)
-            if (genre) {
-                self.search = genre
-                self.results(0);
-            }
+            const id = urlParams.get('id')
+            axios.get(`https://www.googleapis.com/books/v1/volumes/ + this.id`)
         }
     }
 

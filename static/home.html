@@ -87,7 +87,6 @@
             </div>
             <div class="list-book">
                 <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
-                    <!-- <a :href="'https://www.amazon.com/s?k=' + book.volumeInfo.title + '&i=stripbooks'" target="_blank" >Search on Amazon</a> -->
                     <a :href="book.volumeInfo.previewLink" target="_blank">
                         <img class="thumbnail"
                             v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
