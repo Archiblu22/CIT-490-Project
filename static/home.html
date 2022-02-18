@@ -19,7 +19,7 @@
             <nav class="main-header__nav">
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a href="./index.html">Home</a>
+                        <a href="./home.html">Home</a>
                     </li>
                     <li class="main-header__item">
                         <a href="./mylibrary.html">My Library</a>
@@ -51,7 +51,6 @@
                 </li>
                 <li class="mobile-nav__item">
                     <form action="/logout" method="post">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit">Logout</button>
                     </form>
                 </li>
@@ -63,7 +62,8 @@
     </div>
     <main id="app">
 
-        <!-- STRETCH GOAL <h1>Books For You</h1>
+        <!-- STRETCH GOAL 
+        <h1>Books For You</h1>
         Insert statement if recommended is available then
         <section id="recommended" class="results">
             <div class="list-book recommended">
@@ -73,148 +73,82 @@
             </div>
         </section>
         Insert else statement
-        <h2>No Book Recommendations Yet!</h2> -->
+        <h2>No Book Recommendations Yet!</h2>
+         -->
 
         <section class="results" v-for="genre in genres">
             <div class="flex" id="search-box">
                 <h1 class="section-title">{{genre}}</h1>
                 <div>
-                    <button id="{{genre}}-viewAll" class="seeMore" :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'
-                    ">
-                        See More
+                    <button id="{{genre}}-viewAll" class="seeMore"
+                        :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'">See More
                     </button>
                 </div>
             </div>
             <div class="list-book">
-                <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
-                    <a :href="book.volumeInfo.previewLink" target="_blank">
-                        <img class="thumbnail"
-                            v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
-                            alt="cover" />
-                    </a>
+                <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId"
+                    :onclick="'document.location = &quot;view-book.html?id=' + id + '&quot;'">
+                    <img class="thumbnail" v-if="book.volumeInfo.imageLinks"
+                        :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" />
                     <div class="book-info">
                         <h3 class="book-title">
-                            <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
+                            {{ book.volumeInfo.title }}
                         </h3>
-                        <div class="book-authors">{{ book.volumeInfo.authors[0] }}
-                        </div>
+                        <div class="book-authors">{{ book.volumeInfo.authors[0] }}</div>
                     </div>
                 </div>
             </div>
             <hr width="100%">
         </section>
 
-        <!-- <section id="fiction" class="results">
-            <div class="flex" id="search-box">
-                <h1 class="section-title">Fiction</h1>
-                <div>
-                    <button id="fiction-viewAll" class="seeMore" onclick="next('fiction')">
-                        See More
-                    </button>
-                </div>
-            </div>
-            <div class="list-book fiction">
-                <div class="prompt">
-                    <div class="loader"></div>
-                </div>
-            </div>
-        </section>
-        <section id="poetry" class="results">
-            <div class="flex">
-                <h1 class="section-title">Poetry</h1>
-                <div>
-                    <button id="poetry-viewAll" class="seeMore" onclick="next('poetry')">
-                        See More
-                    </button>
-                </div>
-            </div>
-            <div class="list-book poetry">
-                <div class="prompt">
-                    <div class="loader"></div>
-                </div>
-            </div>
-        </section>
-        <section id="fantasy" class="results">
-            <div class="flex">
-                <h1 class="section-title">Fantasy</h1>
-                <div>
-                    <button id="fantasy-viewAll" class="seeMore" onclick="next('fantasy')">
-                        See More
-                    </button>
-                </div>
-            </div>
-            <div class="list-book fantasy">
-                <div class="prompt">
-                    <div class="loader"></div>
-                </div>
-            </div>
-        </section>
-        <section id="romance" class="results">
-            <div class="flex">
-                <h1 class="section-title">Romance</h1>
-                <div>
-                    <button id="romance-viewAll" class="seeMore" onclick="next('romance')">
-                        See More
-                    </button>
-                </div>
-            </div>
-            <div class="list-book romance">
-                <div class="prompt">
-                    <div class="loader"></div>
-                </div>
-            </div>
-        </section> -->
-
     </main>
     <div class="footer">&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</div>
-
-    <!-- <script src="./js/main.js"></script> -->
-
-    <script>
-        const backdrop = document.querySelector('.backdrop');
-        const sideDrawer = document.querySelector('.mobile-nav');
-        const menuToggle = document.querySelector('#side-menu-toggle');
-
-        function backdropClickHandler() {
-            backdrop.style.display = 'none';
-            sideDrawer.classList.remove('open');
-        }
-
-        function menuToggleClickHandler() {
-            backdrop.style.display = 'block';
-            sideDrawer.classList.add('open');
-        }
-
-        backdrop.addEventListener('click', backdropClickHandler);
-        menuToggle.addEventListener('click', menuToggleClickHandler);
-
-        const RootComponent = {
-            data() {
-                return {
-                    email: "",
-                    password: "",
-                    googleBookList: [],
-                    genres: ["Fiction", "Mystery", "Science Fiction", "Romance"]
-                }
-            },
-            methods: {
-            },
-            created() {
-                var self = this;
-
-                self.genres.forEach(genre => {
-                    self.googleBookList[genre] = [];
-                    axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=4&q=` + genre).then(
-                        response => {
-                            self.googleBookList[genre] = response.data;
-                        })
-                });
-            }
-        }
-        const app = Vue.createApp(RootComponent)
-        const vm = app.mount('#app')
-
-    </script>
 </body>
+
+<script>
+    const backdrop = document.querySelector('.backdrop');
+    const sideDrawer = document.querySelector('.mobile-nav');
+    const menuToggle = document.querySelector('#side-menu-toggle');
+
+    function backdropClickHandler() {
+        backdrop.style.display = 'none';
+        sideDrawer.classList.remove('open');
+    }
+
+    function menuToggleClickHandler() {
+        backdrop.style.display = 'block';
+        sideDrawer.classList.add('open');
+    }
+
+    backdrop.addEventListener('click', backdropClickHandler);
+    menuToggle.addEventListener('click', menuToggleClickHandler);
+
+    const RootComponent = {
+        data() {
+            return {
+                email: "",
+                password: "",
+                googleBookList: [],
+                genres: ["Fiction", "Mystery", "Science Fiction", "Romance"]
+            }
+        },
+        methods: {
+        },
+        created() {
+            var self = this;
+
+            self.genres.forEach(genre => {
+                self.googleBookList[genre] = [];
+                axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=4&q=` + genre).then(
+                    response => {
+                        self.googleBookList[genre] = response.data;
+                    })
+            });
+        }
+    }
+    const app = Vue.createApp(RootComponent)
+    const vm = app.mount('#app')
+
+</script>
 
 </html>
