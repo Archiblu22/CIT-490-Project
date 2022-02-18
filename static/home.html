@@ -87,14 +87,19 @@
             </div>
             <div class="list-book">
                 <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId"
-                    :onclick="'document.location = &quot;view-book.html?id=' + id + '&quot;'">
-                    <img class="thumbnail" v-if="book.volumeInfo.imageLinks"
-                        :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" />
+                    :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+                    <img class="thumbnail"
+                            v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
+                            alt="cover" width="128" />
+                        <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
+                            width="128" />
+                    </a>
                     <div class="book-info">
                         <h3 class="book-title">
-                            {{ book.volumeInfo.title }}
+                            <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
                         </h3>
-                        <div class="book-authors">{{ book.volumeInfo.authors[0] }}</div>
+                        <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +134,7 @@
                 email: "",
                 password: "",
                 googleBookList: [],
-                genres: ["Fiction", "Mystery", "Science Fiction", "Romance"]
+                genres: ["Fiction", "History", "Mystery", "Self-Help"]
             }
         },
         methods: {

@@ -78,8 +78,8 @@
                 </div>
             </div>
             <div class="list-book">
-                <div class="book" v-for="book in googleBookList.items" :key="book.BookId">
-                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
+                <div class="book" v-for="book in googleBookList.items" :key="book.BookId" :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+                    <img class="thumbnail"
                             v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
                             alt="cover" width="128" />
                         <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
@@ -95,7 +95,7 @@
                 </div>
             </div>
         </section>
-        
+
     </main>
     <div class="footer">
         <p v-if="searched" class="top"><a href="#app">Back to top</a></p>
@@ -149,7 +149,7 @@
             var self = this;
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            const genre = urlParams.get('genre') //get('id') in the view-book.html axios.get(`https://www.googleapis.com/books/v1/volumes/ + this.id)
+            const genre = urlParams.get('genre')
             if (genre) {
                 self.search = genre
                 self.results(0);

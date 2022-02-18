@@ -61,15 +61,13 @@
     <main id="app">
 
         <section>
-            <h1>404: Work in Progress</h1>
+            <!-- <h1>Work in Progress</h1> -->
             <div class="list-book">
-                <div class="book" v-for="book in googleBookList.items" :key="book.BookId">
-                    <a :href="book.volumeInfo.previewLink" target="_blank"><img class="thumbnail"
-                            v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
-                            alt="cover" width="128" />
-                        <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
-                            width="128" />
-                    </a>
+                <div class="book" v-for="book in book.items" :key="book.BookId">
+                    <img class="thumbnail" v-if="book.volumeInfo.imageLinks"
+                        :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" width="128" />
+                    <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
+                        width="128" />
                     <div class="book-info">
                         <h3 class="book-title">
                             <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
@@ -108,15 +106,20 @@
     const RootComponent = {
         data() {
             return {
-                googleBookList: []
+                book: {}
             }
         },
         methods: {
         },
         created() {
             var self = this;
-            const id = urlParams.get('id')
-            axios.get(`https://www.googleapis.com/books/v1/volumes/ + this.id`)
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get('id');
+            axios.get(`https://www.googleapis.com/books/v1/volumes/` + this.id).then(
+                response =>
+                    self.book = response.data;
+                )
         }
     }
 

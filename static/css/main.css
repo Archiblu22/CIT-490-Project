@@ -58,7 +58,6 @@ h2 {
   border: none;
   text-decoration: none;
   color: white;
-  cursor: pointer;
 }
 
 .main-header__item a:hover,
@@ -142,7 +141,6 @@ h2 {
   padding: 0.5rem 2rem;
   background: transparent;
   border: none;
-  cursor: pointer;
 }
 
 .mobile-nav__item a:active,
@@ -162,7 +160,6 @@ h2 {
   display: block;
   background: transparent;
   color: white;
-  cursor: pointer;
 }
 
 #side-menu-toggle:focus {
@@ -256,6 +253,7 @@ h2 {
   margin-right: 32px;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .book-title {
