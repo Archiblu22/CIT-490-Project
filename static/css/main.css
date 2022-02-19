@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Comfortaa', cursive;
   background-color: #1b4b47;
 }
 
@@ -244,6 +244,7 @@ h2 {
 }
 
 .book-info {
+  margin-top: 1rem;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -258,40 +259,83 @@ h2 {
 
 .book-title {
   margin: 0;
+  color: #1b4b47;
+  cursor: default;
 }
 
 .book-title a {
-  color: #1b4b47;
+  color: #007981;
   text-decoration: none;
 }
 
 .book-authors {
-  display: -webkit-box;
-  overflow: hidden;
   margin: 16px 0;
-  color: var(--secondary-color);
-  text-overflow: ellipsis;
-  cursor: pointer;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  cursor: default;
 }
 
-.prompt {
-  display: flex;
-  padding: 16px;
-  color: rgba(0, 0, 0, 0.5);
-  transition: all 0.2s;
+
+/* SINGLE BOOK VIEW */
+.book-view-info h3 {
+  text-decoration: underline;
 }
 
-.loader {
+.view-book {
+  padding: 32px 16px;
+  flex: 1;
+}
+
+.view-thumbnail {
+  margin-right: 32px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
+
+.book-published {
+  margin: 0;
+  cursor: default;
+}
+
+.options {
+  margin-top: 1rem;
   display: flex;
-  margin-bottom: 32px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  transition: all 0.2s;
-  animation: fadein 1s infinite;
+}
+
+button {
+  margin: .4rem;
+  margin-left: 0;
+  background-color: #1b4b47;
+  border: 1px solid #1b4b47;
+  border-radius: 3px;
+  padding: .5rem .75rem;
+}
+
+button a {
+  color: white;
+  text-decoration: none;
+}
+
+.amazon:hover {
+  background-color: goldenrod;
+  border: 1px solid goldenrod;
+}
+
+.library:hover {
+  background-color: #007981;
+  border: 1px solid #007981;
+}
+
+.addInfo {
+  padding: 0;
+}
+
+.title {
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.content {
+  padding-left: .5rem;
 }
 
 /* FOOTER */
@@ -342,5 +386,14 @@ h2 {
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
+  }
+  .view-book{
+    display: flex;
+  }
+  .book-info {
+    margin-top: 0;
+  }
+  .button {
+    margin: .5rem;
   }
 }

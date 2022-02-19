@@ -41,7 +41,7 @@
         <nav class="mobile-nav">
             <ul class="mobile-nav__item-list">
                 <li class="mobile-nav__item">
-                    <a href="./index.html">Home</a>
+                    <a href="./home.html">Home</a>
                 </li>
                 <li class="mobile-nav__item">
                     <a href="./mylibrary.html">My Library</a>
@@ -61,23 +61,65 @@
     <main id="app">
 
         <section>
-            <!-- <h1>Work in Progress</h1> -->
-            <div class="list-book">
-                <div class="book" v-for="book in book.items" :key="book.BookId">
-                    <img class="thumbnail" v-if="book.volumeInfo.imageLinks"
-                        :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" width="128" />
-                    <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
-                        width="128" />
-                    <div class="book-info">
-                        <h3 class="book-title">
-                            <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
-                        </h3>
-                        <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
-                        </div>
+            <div class="view-book">
+                <img class="view-thumbnail" v-if="book.volumeInfo.imageLinks"
+                    :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" width="300" />
+                <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
+                    width="300" />
+                <div class="book-info">
+                    <h1 class="book-title">{{ book.volumeInfo.title }}</h1>
+                    <div v-if="book.volumeInfo.authors" class="book-authors">by {{ book.volumeInfo.authors[0] }}
                     </div>
-                    <!-- <a :href="'https://www.amazon.com/s?k=' + book.volumeInfo.title + '&i=stripbooks'" target="_blank" >Search on Amazon</a> -->
+                    <h4 class="book-published">Published: {{ book.volumeInfo.publishedDate }}</h4>
+                    <div class="options">
+                        <button class="amazon"><a
+                                :href="'https://www.amazon.com/s?k=' + book.volumeInfo.title + '&i=stripbooks'"
+                                target="_blank">Search on Amazon</a></button>
+                        <button class="library"><a
+                                :href="'https://catalog.slcolibrary.org/polaris/search/searchresults.aspx?ctx=1.1033.0.0.1&type=Keyword&term=' + book.volumeInfo.title"
+                                target="_blank">Search County Library</a></button>
+                    </div>
                 </div>
             </div>
+            <hr>
+            <section class="book-view-info">
+            <div>
+                <h3>Description</h3>
+                {{ book.volumeInfo.description }}
+            </div>
+            <div>
+                <h3>Additional Info</h3>
+                <table class="addInfo">
+                    <tr v-if="book.volumeInfo.categories">
+                        <td class="title">Category:</td>
+                        <td class="content">
+                            {{ book.volumeInfo.categories[0] }}
+                        </td>
+                    </tr>
+                    <tr v-if="book.volumeInfo.averageRating">
+                        <td class="title">Rating:</td>
+                        <td class="content">
+                            {{ book.volumeInfo.averageRating }}/5 ({{
+                                book.volumeInfo.ratingsCount }}
+                                reviews)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title">Pages:</td>
+                        <td class="content">
+                            {{ book.volumeInfo.printedPageCount }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title">ISBN:</td>
+                        <td class="content">
+                            <div>{{ book.volumeInfo.industryIdentifiers[0].identifier }}</div>
+                            <div>{{ book.volumeInfo.industryIdentifiers[1].identifier }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </section>
         </section>
 
     </main>
@@ -116,10 +158,10 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const id = urlParams.get('id');
-            axios.get(`https://www.googleapis.com/books/v1/volumes/` + this.id).then(
-                response =>
+            axios.get(`https://www.googleapis.com/books/v1/volumes/` + id).then(
+                response => {
                     self.book = response.data;
-                )
+                })
         }
     }
 
