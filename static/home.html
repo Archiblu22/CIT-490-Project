@@ -43,12 +43,15 @@
                 <li class="mobile-nav__item">
                     <a href="./home.html">Home</a>
                 </li>
+                <hr width="75%">
                 <li class="mobile-nav__item">
                     <a href="./mylibrary.html">My Library</a>
                 </li>
+                <hr width="75%">
                 <li class="mobile-nav__item">
                     <a href="./results.html">Search</a>
                 </li>
+                <hr width="75%">
                 <li class="mobile-nav__item">
                     <form action="/logout" method="post">
                         <button type="submit">Logout</button>
@@ -79,7 +82,7 @@
         <section class="results" v-for="genre in genres">
             <div class="flex" id="search-box">
                 <h1 class="section-title">{{genre}}</h1>
-                <div>
+                <div class="seeMore-desktop">
                     <button id="{{genre}}-viewAll" class="seeMore"
                         :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'">See More
                     </button>
@@ -102,6 +105,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="seeMore-mobile">
+                <button id="{{genre}}-viewAll" class="seeMore"
+                    :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'">See More
+                </button>
             </div>
             <hr width="100%">
         </section>

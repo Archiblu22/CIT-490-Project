@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
   background-color: #1b4b47;
 }
 
@@ -190,7 +190,6 @@ h2 {
   margin-bottom: -5px;
 }
 
-
 /* GENRES */
 .results {
   position: relative;
@@ -273,7 +272,6 @@ h2 {
   cursor: default;
 }
 
-
 /* SINGLE BOOK VIEW */
 .book-view-info h3 {
   text-decoration: underline;
@@ -302,12 +300,12 @@ h2 {
 }
 
 button {
-  margin: .4rem;
+  margin: 0.4rem;
   margin-left: 0;
   background-color: #1b4b47;
   border: 1px solid #1b4b47;
   border-radius: 3px;
-  padding: .5rem .75rem;
+  padding: 0.5rem 0.75rem;
 }
 
 button a {
@@ -335,7 +333,7 @@ button a {
 }
 
 .content {
-  padding-left: .5rem;
+  padding-left: 0.5rem;
 }
 
 /* FOOTER */
@@ -344,7 +342,7 @@ button a {
   background-color: #007981;
   color: white;
   text-align: center;
-  padding: .75rem 0;
+  padding: 0.75rem 0;
 }
 
 .footer a,
@@ -359,7 +357,7 @@ button a {
 }
 
 .top {
-  padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
 }
 
 /* DESKTOP VIEW */
@@ -376,7 +374,7 @@ button a {
   .list-book {
     flex-wrap: none;
   }
-  .flex{
+  .flex {
     padding: 0 32px;
   }
   .top {
@@ -387,13 +385,26 @@ button a {
     margin-right: auto;
     max-width: 1280px;
   }
-  .view-book{
+  .view-book {
     display: flex;
   }
   .book-info {
     margin-top: 0;
   }
   .button {
-    margin: .5rem;
+    margin: 0.5rem;
+  }
+  #search-bar {
+    margin: auto;
+    max-width: 750px;
+  }
+  .seeMore-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .seeMore-desktop {
+    display: none;
   }
 }

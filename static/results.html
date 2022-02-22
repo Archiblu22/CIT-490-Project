@@ -43,15 +43,17 @@
                 <li class="mobile-nav__item">
                     <a href="./home.html">Home</a>
                 </li>
+                <hr width="75%">
                 <li class="mobile-nav__item">
                     <a href="./mylibrary.html">My Library</a>
                 </li>
+                <hr width="75%">
                 <li class="mobile-nav__item">
                     <a href="./results.html">Search</a>
                 </li>
+                <hr width="75%">
                 <li class="mobile-nav__item">
                     <form action="/logout" method="post">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit">Logout</button>
                     </form>
                 </li>
@@ -64,7 +66,7 @@
     <main id="app">
 
         <section class="results">
-            <div class="flex" id="search-box">
+            <div class="flex" id="search-bar">
                 <input class="search-box" placeholder="Search by title of the book" aria-label="Search books"
                     v-model="search" />
                 <div>
@@ -72,10 +74,7 @@
                 </div>
             </div>
             <div v-if="searched" class="flex" id="search-box">
-                <h2>Search Results For: <br><i>{{search}}</i></h2>
-                <div>
-                    <button class="seeMore" v-on:click="showMore()">See More</button>
-                </div>
+                <h2>Search Results For: <i>{{search}}</h2>
             </div>
             <div class="list-book">
                 <div class="book" v-for="book in googleBookList.items" :key="book.BookId" :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
@@ -93,6 +92,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div  v-if="searched" >
+                <button class="seeMore" v-on:click="showMore()">See More</button>
             </div>
         </section>
 
