@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./css/main.css">
 </head>
 
-<body>
+<body id="top">
     <nav>
         <div class="backdrop"></div>
         <header class="main-header">
@@ -30,9 +30,7 @@
                 </ul>
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a href="./index.html">
-                            <button type="submit">Logout</button></a>
-                        </form>
+                        <a href="./index.html">Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -53,9 +51,7 @@
                 </li>
                 <hr width="75%">
                 <li class="mobile-nav__item">
-                    <form action="/logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
+                    <a href="./index.html">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -68,7 +64,7 @@
         <section class="results">
             <div class="flex" id="search-bar">
                 <input class="search-box" placeholder="Search by title of the book" aria-label="Search books"
-                    v-model="search" />
+                    v-model="search" @keyup.enter="results(0)" />
                 <div>
                     <button class="search" v-on:click="results(0)">Search</button>
                 </div>
@@ -100,7 +96,7 @@
 
     </main>
     <div class="footer">
-        <p v-if="searched" class="top"><a href="#app">Back to top</a></p>
+        <p v-if="searched" class="top"><a href="#top">Back to top</a></p>
         <p>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</p>
     </div>
 </body>
@@ -137,6 +133,8 @@
                 var self = this;
                 this.startIndex += 16;
                 this.results(this.startIndex);
+                document.querySelector('#app').scrollIntoView({behavior: 'smooth'});
+
             },
             results(startIndex) {
                 var self = this;

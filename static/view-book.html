@@ -30,9 +30,7 @@
                 </ul>
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a href="./index.html">
-                            <button type="submit">Logout</button></a>
-                        </form>
+                        <a href="./index.html">Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -53,14 +51,12 @@
                 </li>
                 <hr width="75%">
                 <li class="mobile-nav__item">
-                    <form action="/logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
+                    <a href="./index.html">Logout</a>
                 </li>
             </ul>
         </nav>
     </nav>
-    <main id="app">
+    <main class="book-view" id="app">
 
         <section>
             <div class="view-book">
@@ -87,7 +83,7 @@
             <section class="book-view-info">
             <div>
                 <h3>Description</h3>
-                {{ book.volumeInfo.description }}
+                <div v-html="book.volumeInfo.description"></div>
             </div>
             <div>
                 <h3>Additional Info</h3>
@@ -125,8 +121,10 @@
         </section>
 
     </main>
-
-    <div class="footer">&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</div>
+    <div class="footer">
+        <p class="top"><a href="#top">Back to top</a></p>
+        <p>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</p>
+    </div>
 
 </body>
 <script>

@@ -30,9 +30,7 @@
                 </ul>
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a href="./index.html">
-                            <button type="submit">Logout</button></a>
-                        </form>
+                        <a href="./index.html">Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -53,9 +51,7 @@
                 </li>
                 <hr width="75%">
                 <li class="mobile-nav__item">
-                    <form action="/logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
+                    <a href="./index.html">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -68,6 +64,23 @@
 
 </body>
 <script>
+    const backdrop = document.querySelector('.backdrop');
+    const sideDrawer = document.querySelector('.mobile-nav');
+    const menuToggle = document.querySelector('#side-menu-toggle');
+
+    function backdropClickHandler() {
+        backdrop.style.display = 'none';
+        sideDrawer.classList.remove('open');
+    }
+
+    function menuToggleClickHandler() {
+        backdrop.style.display = 'block';
+        sideDrawer.classList.add('open');
+    }
+
+    backdrop.addEventListener('click', backdropClickHandler);
+    menuToggle.addEventListener('click', menuToggleClickHandler);
+
     const RootComponent = {
         data() {
             return {
