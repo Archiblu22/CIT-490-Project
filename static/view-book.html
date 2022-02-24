@@ -56,7 +56,7 @@
             </ul>
         </nav>
     </nav>
-    <main class="book-view" id="app">
+    <main id="app">
 
         <section>
             <div class="view-book">
@@ -77,46 +77,65 @@
                                 :href="'https://catalog.slcolibrary.org/polaris/search/searchresults.aspx?ctx=1.1033.0.0.1&type=Keyword&term=' + book.volumeInfo.title"
                                 target="_blank">Search County Library</a></button>
                     </div>
+                    <button class="mylibrary"><a>+ My Library</a></button>
                 </div>
+                <!-- STRETCH
+                Add Recommended Section of Books by Same Author
+                <div class="recommended">
+                    <h4>More by this Author:</h4>
+                    <div class="recommend-list-book">
+                        <div class="recommended-book">
+                            <img class="recommended-thumbnail" src="no_cover_thumb.gif" alt="cover" width="64" />
+                            <div class="recommended-book-info">
+                                <h3 class="recommended-book-title">
+                                    <a>{{ book.volumeInfo.title }}</a>
+                                </h3>
+                                <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0]
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
             </div>
             <hr>
             <section class="book-view-info">
-            <div>
-                <h3>Description</h3>
-                <div v-html="book.volumeInfo.description"></div>
-            </div>
-            <div>
-                <h3>Additional Info</h3>
-                <table class="addInfo">
-                    <tr v-if="book.volumeInfo.categories">
-                        <td class="title">Category:</td>
-                        <td class="content">
-                            {{ book.volumeInfo.categories[0] }}
-                        </td>
-                    </tr>
-                    <tr v-if="book.volumeInfo.averageRating">
-                        <td class="title">Rating:</td>
-                        <td class="content">
-                            {{ book.volumeInfo.averageRating }}/5 ({{
+                <div>
+                    <h3>Description</h3>
+                    <div v-html="book.volumeInfo.description"></div>
+                </div>
+                <div>
+                    <h3>Additional Info</h3>
+                    <table class="addInfo">
+                        <tr v-if="book.volumeInfo.categories">
+                            <td class="title">Category:</td>
+                            <td class="content">
+                                {{ book.volumeInfo.categories[0] }}
+                            </td>
+                        </tr>
+                        <tr v-if="book.volumeInfo.averageRating">
+                            <td class="title">Rating:</td>
+                            <td class="content">
+                                {{ book.volumeInfo.averageRating }}/5 ({{
                                 book.volumeInfo.ratingsCount }}
                                 reviews)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="title">Pages:</td>
-                        <td class="content">
-                            {{ book.volumeInfo.printedPageCount }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="title">ISBN:</td>
-                        <td class="content">
-                            <div>{{ book.volumeInfo.industryIdentifiers[0].identifier }}</div>
-                            <div>{{ book.volumeInfo.industryIdentifiers[1].identifier }}</div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">Pages:</td>
+                            <td class="content">
+                                {{ book.volumeInfo.printedPageCount }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">ISBN:</td>
+                            <td class="content">
+                                <div>{{ book.volumeInfo.industryIdentifiers[0].identifier }}</div>
+                                <div>{{ book.volumeInfo.industryIdentifiers[1].identifier }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </section>
         </section>
 

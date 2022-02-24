@@ -227,10 +227,12 @@ h2 {
   color: black;
 }
 
-.list-book {
+.list-book,
+.recommend-list-book {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
+  margin-top: .5rem;
 }
 
 .book {
@@ -240,7 +242,7 @@ h2 {
 }
 
 .book-info {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -320,6 +322,18 @@ button a {
   border: 1px solid #007981;
 }
 
+.mylibrary {
+  background-color: #007981;
+  border: 1px solid #007981;
+  width: -webkit-fill-available;
+  padding: 0.75rem;
+}
+
+.mylibrary:hover {
+  background-color: #039aa5;
+  border: 1px solid #039aa5;
+}
+
 .addInfo {
   padding: 0;
 }
@@ -332,6 +346,40 @@ button a {
 .content {
   padding-left: 0.5rem;
 }
+
+/* STRETCH RECOMMENDED VIEW
+
+.recommended {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.recommended h4 {
+  margin: 0;
+}
+
+.recommended-book {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.recommended-book-info {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 1rem;
+}
+.recommended-book-title {
+  margin: 0;
+  color: #007981;
+  font-size: medium;
+}
+
+.recommended-thumbnail {
+  margin: 0;
+  border-radius: 5px;
+} */
 
 /* FOOTER */
 .footer {
@@ -399,8 +447,12 @@ button a {
   .seeMore-mobile {
     display: none;
   }
-  .book-view {
-    height: 93vh;
+  .mylibrary {
+    width: auto;
+    padding: 0.5rem 0.75rem;
+  }
+  .recommended {
+    margin-left: 7rem;
   }
 }
 
