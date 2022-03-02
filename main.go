@@ -5,9 +5,26 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
+var dbx *sqlx.DB
+var err error
+
+func handleError(err error) {
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func main() {
+	dbx, err = sqlx.Open("sqlite3", "database/books.db")
+	handleError(err)
+	_, err = dbx.Exec("SELECT 1")
+	handleError(err)
+
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fs)
 
@@ -59,26 +76,15 @@ type User struct {
 }
 
 type Book struct {
-	BookId    string `json:"id"`
-	BookTitle string `json:"title"`
+	UserId       string `json:"id" db:"user_id"`
+	GoogleBookId string `json:"google_book_id" db:"google_book_id"`
+	Date         string `json:"date" db:"date"`
 }
 
 func bookList(w http.ResponseWriter, r *http.Request) {
-	user := User{}
-	json.NewDecoder(r.Body).Decode(&user)
-
 	books := []Book{}
-
-	if user.Id == 1 {
-		books = append(books, Book{BookId: "1", BookTitle: "Harry Potter 1"})
-		books = append(books, Book{BookId: "2", BookTitle: "Harry Potter 2"})
-		books = append(books, Book{BookId: "3", BookTitle: "Harry Potter 3"})
-		books = append(books, Book{BookId: "4", BookTitle: "Harry Potter 4"})
-	} else {
-		books = append(books, Book{BookId: "3", BookTitle: "Harry Potter 5"})
-		books = append(books, Book{BookId: "4", BookTitle: "Harry Potter 6"})
-	}
-
+	err := dbx.Select(&books, "SELECT user_id, google_book_id, date FROM library")
+	handleError(err)
 	json.NewEncoder(w).Encode(books)
 }
 
