@@ -76,14 +76,13 @@ type User struct {
 }
 
 type Book struct {
-	UserId       string `json:"id" db:"user_id"`
-	GoogleBookId string `json:"google_book_id" db:"google_book_id"`
-	Date         string `json:"date" db:"date"`
+	UserId       string `json:"userid" db:"userid"`
+	GoogleBookId string `json:"googlebookid" db:"googlebookid"`
 }
 
 func bookList(w http.ResponseWriter, r *http.Request) {
 	books := []Book{}
-	err := dbx.Select(&books, "SELECT user_id, google_book_id, date FROM library")
+	err := dbx.Select(&books, "SELECT userid, googlebookid FROM library")
 	handleError(err)
 	json.NewEncoder(w).Encode(books)
 }
