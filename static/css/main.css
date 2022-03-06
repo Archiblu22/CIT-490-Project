@@ -327,11 +327,29 @@ button a {
   border: 1px solid #007981;
   width: -webkit-fill-available;
   padding: 0.75rem;
+  color: white;
 }
 
 .mylibrary:hover {
   background-color: #039aa5;
   border: 1px solid #039aa5;
+  cursor: pointer;
+}
+
+.removeLibrary {
+  background-color: lightgray;
+  border: 1px solid lightgray;
+  width: auto;
+  padding: .25rem .35rem;
+  color: white;
+}
+
+.removeLibrary:hover {
+  background-color: #df3737;
+  border: 1px solid #df3737;
+  width: auto;
+  padding: .25rem .35rem;
+  color: white;
 }
 
 .addInfo {
@@ -451,6 +469,10 @@ button a {
     width: auto;
     padding: 0.5rem 0.75rem;
   }
+  /* .removeLibrary {
+    width: auto;
+    padding: .25rem .35rem;
+  } */
   .recommended {
     margin-left: 7rem;
   }

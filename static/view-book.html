@@ -77,7 +77,7 @@
                                 :href="'https://catalog.slcolibrary.org/polaris/search/searchresults.aspx?ctx=1.1033.0.0.1&type=Keyword&term=' + book.volumeInfo.title"
                                 target="_blank">Search County Library</a></button>
                     </div>
-                    <button class="mylibrary"><a>+ My Library</a></button>
+                    <button class="mylibrary" @click="addToLibrary(id)">+ My Library</button>
                 </div>
                 <!-- STRETCH
                 Add Recommended Section of Books by Same Author
@@ -167,17 +167,24 @@
     const RootComponent = {
         data() {
             return {
+                id: '',
                 book: {}
             }
         },
         methods: {
+            addToLibrary(id) {
+                axios.post(`/add-to-library`, {
+                    userid: 1,
+                    googlebookid: id
+                });
+            }
         },
         created() {
             var self = this;
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            const id = urlParams.get('id');
-            axios.get(`https://www.googleapis.com/books/v1/volumes/` + id).then(
+            self.id = urlParams.get('id');
+            axios.get(`https://www.googleapis.com/books/v1/volumes/` + self.id).then(
                 response => {
                     self.book = response.data;
                 })

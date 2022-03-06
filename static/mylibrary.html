@@ -60,7 +60,32 @@
         <img src="Books-Hero-Image.jpg" alt="book hero image">
     </div>
     <main id="app">
-
+        <section class="results">
+            <div class="flex" id="search-box">
+                <h1 class="section-title">My Library</h1>
+            </div>
+            <div class="list-book">
+                <div class="book" v-for="book in googleBookList" :key="book.BookId">
+                    <img class="thumbnail" v-if="book.volumeInfo.imageLinks"
+                        :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" width="128" 
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'"/>
+                    <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
+                        width="128" 
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'"/>
+                    </a>
+                    <div class="book-info">
+                        <h3 class="book-title"
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+                            <a>{{ book.volumeInfo.title }}</a>
+                        </h3>
+                        <div v-if="book.volumeInfo.authors" class="book-authors"
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">{{ book.volumeInfo.authors[0] }}
+                        </div>
+                        <button class="removeLibrary" @click="">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
     <div class="footer">
         <p class="top"><a href="#top">Back to top</a></p>
@@ -85,17 +110,24 @@
 
     backdrop.addEventListener('click', backdropClickHandler);
     menuToggle.addEventListener('click', menuToggleClickHandler);
-    
+
     const RootComponent = {
         data() {
             return {
-
+                googleBookList: []
             }
         },
         methods: {
         },
         created() {
             var self = this;
+            axios.get(`/book-list`).then(response => {
+                response.data.forEach(library =>
+                    axios.get(`https://www.googleapis.com/books/v1/volumes/` + library.googlebookid).then(response => {
+                        self.googleBookList.push(response.data);
+                    })
+                );
+            });
         }
     }
 

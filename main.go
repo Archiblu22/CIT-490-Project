@@ -31,6 +31,7 @@ func main() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/book-list", bookList)
 	http.HandleFunc("/logout", logout)
+	http.HandleFunc("/add-to-library", addToLibrary)
 
 	log.Println("Listening on :3000")
 	log.Fatal(http.ListenAndServe(":3000", nil))
@@ -76,7 +77,7 @@ type User struct {
 }
 
 type Book struct {
-	UserId       string `json:"userid" db:"userid"`
+	UserId       int    `json:"userid" db:"userid"`
 	GoogleBookId string `json:"googlebookid" db:"googlebookid"`
 }
 
@@ -89,4 +90,11 @@ func bookList(w http.ResponseWriter, r *http.Request) {
 
 func logout(w http.ResponseWriter, r *http.Request) {
 
+}
+
+func addToLibrary(w http.ResponseWriter, r *http.Request) {
+	book := Book{}
+	json.NewDecoder(r.Body).Decode(&book)
+	_, err := dbx.Exec("INSERT INTO library (userid, googlebookid) VALUES (?, ?)", book.UserId, book.GoogleBookId)
+	handleError(err)
 }

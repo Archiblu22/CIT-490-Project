@@ -85,20 +85,24 @@
                 </div>
             </div>
             <div class="list-book">
-                <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId"
-                    :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+                <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
                     <img class="thumbnail"
                             v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
-                            alt="cover" width="128" />
+                            alt="cover" width="128" 
+                            :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'"/>
                         <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="no_cover_thumb.gif" alt="cover"
-                            width="128" />
+                            width="128" 
+                            :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'"/>
                     </a>
                     <div class="book-info">
-                        <h3 class="book-title">
+                        <h3 class="book-title"
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
                             <a>{{ book.volumeInfo.title }}</a>
                         </h3>
-                        <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
+                        <div v-if="book.volumeInfo.authors" class="book-authors" 
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">{{ book.volumeInfo.authors[0] }}
                         </div>
+                        <!-- <button class="mylibrary" @click="addToLibrary(id)">+ My Library</button> -->
                     </div>
                 </div>
             </div>
@@ -138,6 +142,8 @@
     const RootComponent = {
         data() {
             return {
+                // id: '',
+                // book: {},
                 email: "",
                 password: "",
                 googleBookList: [],
@@ -145,9 +151,22 @@
             }
         },
         methods: {
+            // addToLibrary(id) {
+            //     axios.post(`/add-to-library`, {
+            //         userid: 1,
+            //         googlebookid: id
+            //     });
+            // }
         },
         created() {
             var self = this;
+            // const queryString = window.location.search;
+            // const urlParams = new URLSearchParams(queryString);
+            // self.id = urlParams.get('id');
+            // axios.get(`https://www.googleapis.com/books/v1/volumes/` + self.id).then(
+            //     response => {
+            //         self.book = response.data;
+            //     })
 
             self.genres.forEach(genre => {
                 self.googleBookList[genre] = [];
