@@ -36,10 +36,6 @@
                     <p id="length" class="invalid">Minimum <b>8 characters</b></p>
                 </div>
 
-                <!-- <input type="firstName" id="firstName" name="firstName" class="form-control" placeholder="First Name"
-                    required />
-                <input type="lastName" id="lastName" name="lastName" class="form-control" placeholder="Last Name"
-                    required /> -->
                 <input type="submit" class="btn-filled" value="Sign Up" v-on:click="signup()" />
                 <a href="./index.html">Return to login</a>
             </form>
@@ -60,11 +56,7 @@
                         var self = this;
                         axios.post('/signup', { "email": self.email, "password": self.password }).then(
                             response => {
-                                if (response.data.loggedIn) {
-                                    window.location.assign("/home.html");
-                                } else {
-                                    alert("Invalid username/password")
-                                }
+                                window.location.assign("/index.html");
                             }
                         );
                         return true;

@@ -54,28 +54,27 @@ func login(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&login)
 	fmt.Printf("Email: %v, Password: %v\n", login.Email, login.Password)
 
-	id := 0
-
-	if login.Email == "pierre@pierre.com" {
-		id = 1
+	users := []User{}
+	err := dbx.Select(&users, "SELECT id FROM user WHERE email = ? AND password = ?", login.Email, login.Password)
+	handleError(err)
+	if len(users) > 0 {
+		json.NewEncoder(w).Encode(LoginResult{
+			Id:       users[0].Id,
+			LoggedIn: true,
+		})
 	} else {
-		id = 2
+		json.NewEncoder(w).Encode(LoginResult{
+			Id:       0,
+			LoggedIn: false,
+		})
 	}
-
-	loggedIn := login.Password == "12345"
-	// ("SELECT id FROM user WHERE user = ? AND password = ?")
-
-	json.NewEncoder(w).Encode(LoginResult{
-		Id:       id,
-		LoggedIn: loggedIn,
-	})
 }
 
 func loggedIn(w http.ResponseWriter, r *http.Request) {
 }
 
 type User struct {
-	Id       int    `json:"id"`
+	Id       int    `json:"id" db:"id"`
 	Email    string `json:"email" db:"email"`
 	Password string `json:"password" db:"password"`
 }
