@@ -102,7 +102,6 @@
                         <div v-if="book.volumeInfo.authors" class="book-authors" 
                         :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">{{ book.volumeInfo.authors[0] }}
                         </div>
-                        <!-- <button class="mylibrary" @click="addToLibrary(id)">+ My Library</button> -->
                     </div>
                 </div>
             </div>
@@ -142,8 +141,6 @@
     const RootComponent = {
         data() {
             return {
-                // id: '',
-                // book: {},
                 email: "",
                 password: "",
                 googleBookList: [],
@@ -151,22 +148,9 @@
             }
         },
         methods: {
-            // addToLibrary(id) {
-            //     axios.post(`/add-to-library`, {
-            //         userid: 1,
-            //         googlebookid: id
-            //     });
-            // }
         },
         created() {
             var self = this;
-            // const queryString = window.location.search;
-            // const urlParams = new URLSearchParams(queryString);
-            // self.id = urlParams.get('id');
-            // axios.get(`https://www.googleapis.com/books/v1/volumes/` + self.id).then(
-            //     response => {
-            //         self.book = response.data;
-            //     })
 
             self.genres.forEach(genre => {
                 self.googleBookList[genre] = [];

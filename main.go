@@ -32,6 +32,7 @@ func main() {
 	http.HandleFunc("/book-list", bookList)
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/add-to-library", addToLibrary)
+	http.HandleFunc("/signup", addNewUser)
 
 	log.Println("Listening on :3000")
 	log.Fatal(http.ListenAndServe(":3000", nil))
@@ -62,6 +63,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	loggedIn := login.Password == "12345"
+	// ("SELECT id FROM user WHERE user = ? AND password = ?")
 
 	json.NewEncoder(w).Encode(LoginResult{
 		Id:       id,
@@ -73,7 +75,9 @@ func loggedIn(w http.ResponseWriter, r *http.Request) {
 }
 
 type User struct {
-	Id int `json:"id"`
+	Id       int    `json:"id"`
+	Email    string `json:"email" db:"email"`
+	Password string `json:"password" db:"password"`
 }
 
 type Book struct {
@@ -96,5 +100,12 @@ func addToLibrary(w http.ResponseWriter, r *http.Request) {
 	book := Book{}
 	json.NewDecoder(r.Body).Decode(&book)
 	_, err := dbx.Exec("INSERT INTO library (userid, googlebookid) VALUES (?, ?)", book.UserId, book.GoogleBookId)
+	handleError(err)
+}
+
+func addNewUser(w http.ResponseWriter, r *http.Request) {
+	user := User{}
+	json.NewDecoder(r.Body).Decode(&user)
+	_, err := dbx.Exec("INSERT INTO user (email, password) VALUES (?, ?)", user.Email, user.Password)
 	handleError(err)
 }

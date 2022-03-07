@@ -6,21 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book App | Sign Up</title>
+    <script src="https://www.unpkg.com/vue@3.2.26/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
     <link rel="stylesheet" href="./css/login.css">
 </head>
 
-<body class="login-body">
+<body id="app" class="login-body">
     <div class="signup-page">
         <div class="form-wrapper">
             <h1>Create An Account</h1>
             <form class="login-form" action="" method="POST">
-                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required />
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="email"
+                    required />
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}" required />
+                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}" v-model="password"
+                    required />
 
                 <div id="matchingMessage"></div>
                 <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
-                    placeholder="Confirm Password" minlength="8" required />
+                    placeholder="Confirm Password" minlength="8" v-model="confirmPassword" required />
                 <hr>
 
                 <div id="passwordInstructions">
@@ -32,15 +36,48 @@
                     <p id="length" class="invalid">Minimum <b>8 characters</b></p>
                 </div>
 
-                <input type="firstName" id="firstName" name="firstName" class="form-control" placeholder="First Name"
+                <!-- <input type="firstName" id="firstName" name="firstName" class="form-control" placeholder="First Name"
                     required />
                 <input type="lastName" id="lastName" name="lastName" class="form-control" placeholder="Last Name"
-                    required />
-                <input type="submit" class="btn-filled" value="Sign Up" />
+                    required /> -->
+                <input type="submit" class="btn-filled" value="Sign Up" v-on:click="signup()" />
                 <a href="./index.html">Return to login</a>
             </form>
         </div>
         <script src="./js/signup.js" charset="utf-8"></script>
+        <script>
+            const RootComponent = {
+                data() {
+                    return {
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+
+                    }
+                },
+                methods: {
+                    signup() {
+                        var self = this;
+                        axios.post('/signup', { "email": self.email, "password": self.password }).then(
+                            response => {
+                                if (response.data.loggedIn) {
+                                    window.location.assign("/home.html");
+                                } else {
+                                    alert("Invalid username/password")
+                                }
+                            }
+                        );
+                        return true;
+                    }
+                },
+                created() {
+                    var self = this;
+                }
+            }
+
+            const app = Vue.createApp(RootComponent)
+            const vm = app.mount('#app')
+        </script>
 </body>
 
 </html>
