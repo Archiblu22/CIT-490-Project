@@ -1,0 +1,94 @@
+((define "body"))
+<section class="results">
+    <div class="flex" id="search-bar">
+        <input class="search-box" placeholder="Search by title of the book" aria-label="Search books" v-model="search"
+            @keyup.enter="results(0)" />
+        <div>
+            <button class="search" v-on:click="results(0)">Search</button>
+        </div>
+    </div>
+    <div v-if="searched" class="flex" id="search-box">
+        <h2>Search Results For: <i>{{search}}</h2>
+    </div>
+    <div class="list-book">
+        <div class="book" v-for="book in googleBookList.items" :key="book.BookId"
+            :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+            <img class="thumbnail" v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
+                alt="cover" width="128" />
+            <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="/static/no_cover_thumb.gif" alt="cover"
+                width="128" />
+            </a>
+            <div class="book-info">
+                <h3 class="book-title">
+                    <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
+                </h3>
+                <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0] }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="searched">
+        <button class="seeMore" v-on:click="showMore()">See More</button>
+    </div>
+</section>
+
+<script>
+    const backdrop = document.querySelector('.backdrop');
+    const sideDrawer = document.querySelector('.mobile-nav');
+    const menuToggle = document.querySelector('#side-menu-toggle');
+
+    function backdropClickHandler() {
+        backdrop.style.display = 'none';
+        sideDrawer.classList.remove('open');
+    }
+
+    function menuToggleClickHandler() {
+        backdrop.style.display = 'block';
+        sideDrawer.classList.add('open');
+    }
+
+    backdrop.addEventListener('click', backdropClickHandler);
+    menuToggle.addEventListener('click', menuToggleClickHandler);
+
+    const RootComponent = {
+        data() {
+            return {
+                search: "",
+                googleBookList: [],
+                startIndex: 0,
+                searched: false
+            }
+        },
+        methods: {
+            showMore() {
+                var self = this;
+                this.startIndex += 16;
+                this.results(this.startIndex);
+                document.querySelector('#app').scrollIntoView({ behavior: 'smooth' });
+
+            },
+            results(startIndex) {
+                var self = this;
+                axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=16&startIndex=` + startIndex + `&q=` + this.search).then(
+                    response => {
+                        self.searched = true;
+                        self.googleBookList = response.data;
+                    })
+            }
+        },
+        created() {
+            var self = this;
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const genre = urlParams.get('genre')
+            if (genre) {
+                self.search = genre
+                self.results(0);
+            }
+        }
+    }
+
+    const app = Vue.createApp(RootComponent)
+    const vm = app.mount('#app')
+</script>
+((end))

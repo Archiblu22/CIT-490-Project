@@ -42,9 +42,8 @@
                 var self = this;
                 axios.post('/login', { "email": self.email, "password": self.password }).then(
                     response => {
-                        if (response.data.loggedIn) { 
-                            document.cookie = "id=" + response.data.id;
-                            window.location.assign("/home.html");
+                        if (response.data.loggedIn) {
+                            window.location.assign("/home.html?id=" + response.data.id);
                         } else {
                             alert("Invalid username/password")
                         }

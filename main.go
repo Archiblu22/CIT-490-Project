@@ -3,8 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strconv"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -25,14 +29,17 @@ func main() {
 	_, err = dbx.Exec("SELECT 1")
 	handleError(err)
 
+	http.HandleFunc("/", serveTemplate)
+
 	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fs)
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/book-list", bookList)
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/add-to-library", addToLibrary)
 	http.HandleFunc("/signup", addNewUser)
+	http.HandleFunc("/logged-in", loggedIn)
 
 	log.Println("Listening on :3000")
 	log.Fatal(http.ListenAndServe(":3000", nil))
@@ -85,8 +92,11 @@ type Book struct {
 }
 
 func bookList(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query()["id"][0]
+	userid, err := strconv.Atoi(id)
+	handleError(err)
 	books := []Book{}
-	err := dbx.Select(&books, "SELECT userid, googlebookid FROM library")
+	err = dbx.Select(&books, "SELECT userid, googlebookid FROM library WHERE userid = ?", userid)
 	handleError(err)
 	json.NewEncoder(w).Encode(books)
 }
@@ -107,4 +117,34 @@ func addNewUser(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&user)
 	_, err := dbx.Exec("INSERT INTO user (email, password) VALUES (?, ?)", user.Email, user.Password)
 	handleError(err)
+}
+
+func serveTemplate(w http.ResponseWriter, r *http.Request) {
+	lp := filepath.Join("www", "layout.html")
+	fp := filepath.Join("www", filepath.Clean(r.URL.Path))
+	if r.URL.Path == "/" {
+		fp = filepath.Join("www", filepath.Clean("/index.html"))
+	}
+
+	// Return a 404 if the template doesn't exist or it's a directory
+	info, err := os.Stat(fp)
+	if err != nil || info.IsDir() {
+		if os.IsNotExist(err) {
+			http.NotFound(w, r)
+			return
+		}
+	}
+
+	tmpl, err := template.New(r.URL.Path).Delims("((", "))").ParseFiles(lp, fp)
+	handleError(err)
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "layout", nil)
+	handleError(err)
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+	}
 }
