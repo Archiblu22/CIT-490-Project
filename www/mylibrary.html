@@ -7,19 +7,19 @@
         <div class="book" v-for="book in googleBookList" :key="book.BookId">
             <img class="thumbnail" v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
                 alt="cover" width="128"
-                :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'" />
+                :onclick="'document.location = &quot;view-book.html?gid=' + book.id + '&amp;id=' + id +'&quot;'"/>
             <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="/static/no_cover_thumb.gif" alt="cover" width="128"
-                :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'" />
+                :onclick="'document.location = &quot;view-book.html?gid=' + book.id + '&amp;id=' + id +'&quot;'"/>
             </a>
             <div class="book-info">
-                <h3 class="book-title" :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+                <h3 class="book-title" :onclick="'document.location = &quot;view-book.html?gid=' + book.id + '&amp;id=' + id +'&quot;'">
                     <a>{{ book.volumeInfo.title }}</a>
                 </h3>
                 <div v-if="book.volumeInfo.authors" class="book-authors"
-                    :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">{{
+                    :onclick="'document.location = &quot;view-book.html?gid=' + book.id + '&amp;id=' + id +'&quot;'">{{
                     book.volumeInfo.authors[0] }}
                 </div>
-                <button class="removeLibrary" @click="">Remove</button>
+                <button class="removeLibrary" @click="removeFromLibrary(book.id)">Remove</button>
             </div>
         </div>
     </div>
@@ -51,12 +51,19 @@
             }
         },
         methods: {
+            removeFromLibrary(gid) {
+                axios.post(`/remove-from-library`, {
+                    userid: this.id,
+                    googlebookid: gid
+                });
+                window.location.reload();
+            }
         },
         created() {
             var self = this;
 
             const urlParams = new URLSearchParams(window.location.search);
-            self.id = urlParams.get('id')
+            self.id = parseInt(urlParams.get('id'))
 
             axios.get(`/book-list?id=` + self.id).then(response => {
                 response.data.forEach(library =>

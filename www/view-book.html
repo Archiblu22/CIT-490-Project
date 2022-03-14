@@ -17,7 +17,7 @@
                         :href="'https://catalog.slcolibrary.org/polaris/search/searchresults.aspx?ctx=1.1033.0.0.1&type=Keyword&term=' + book.volumeInfo.title"
                         target="_blank">Search County Library</a></button>
             </div>
-            <button class="mylibrary" @click="addToLibrary(gid)">+ My Library</button>
+            <button class="mylibrary" @click="addToLibrary(gid)":disabled="added">+ My Library</button>
         </div>
         <!-- STRETCH
                 Add Recommended Section of Books by Same Author
@@ -100,13 +100,15 @@
     const RootComponent = {
         data() {
             return {
-                id: '',
+                id: 0,
                 gid: '',
-                book: {}
+                book: {},
+                added: false
             }
         },
         methods: {
             addToLibrary(gid) {
+                this.added = true;
                 axios.post(`/add-to-library`, {
                     userid: this.id,
                     googlebookid: gid
@@ -118,7 +120,7 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             self.gid = urlParams.get('gid');
-            self.id = urlParams.get('id');
+            self.id = parseInt(urlParams.get('id'))
             axios.get('https://www.googleapis.com/books/v1/volumes/' + self.gid).then(
                 response => {
                     self.book = response.data;

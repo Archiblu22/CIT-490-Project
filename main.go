@@ -38,6 +38,7 @@ func main() {
 	http.HandleFunc("/book-list", bookList)
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/add-to-library", addToLibrary)
+	http.HandleFunc("/remove-from-library", removeFromLibrary)
 	http.HandleFunc("/signup", addNewUser)
 	http.HandleFunc("/logged-in", loggedIn)
 
@@ -109,6 +110,13 @@ func addToLibrary(w http.ResponseWriter, r *http.Request) {
 	book := Book{}
 	json.NewDecoder(r.Body).Decode(&book)
 	_, err := dbx.Exec("INSERT INTO library (userid, googlebookid) VALUES (?, ?)", book.UserId, book.GoogleBookId)
+	handleError(err)
+}
+
+func removeFromLibrary(w http.ResponseWriter, r *http.Request) {
+	book := Book{}
+	json.NewDecoder(r.Body).Decode(&book)
+	_, err := dbx.Exec("DELETE FROM library WHERE userid = ? AND googlebookid = ?", book.UserId, book.GoogleBookId)
 	handleError(err)
 }
 
