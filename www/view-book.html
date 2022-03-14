@@ -17,10 +17,10 @@
                         :href="'https://catalog.slcolibrary.org/polaris/search/searchresults.aspx?ctx=1.1033.0.0.1&type=Keyword&term=' + book.volumeInfo.title"
                         target="_blank">Search County Library</a></button>
             </div>
-            <button class="mylibrary" @click="addToLibrary(gid)":disabled="added">+ My Library</button>
+            <button class="mylibrary" @click="addToLibrary(gid)":disabled="added">{{added ? 'Added to Library' : '+ My Library'}}</button>
         </div>
         <!-- STRETCH
-                Add Recommended Section of Books by Same Author
+                Add Recommended Section of Books by Same Author -->
                 <div class="recommended">
                     <h4>More by this Author:</h4>
                     <div class="recommend-list-book">
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
     </div>
     <hr>
     <section class="book-view-info">
@@ -103,7 +103,8 @@
                 id: 0,
                 gid: '',
                 book: {},
-                added: false
+                added: false,
+                related: []
             }
         },
         methods: {
@@ -124,6 +125,11 @@
             axios.get('https://www.googleapis.com/books/v1/volumes/' + self.gid).then(
                 response => {
                     self.book = response.data;
+                    axios.get('https://www.googleapis.com/books/v1/volumes?q=inauthor:"' + self.books.volumeInfo.authors[0] + '"').then(
+                        response => {
+                            self.related = response.data;
+                        }
+                    )
                 })
         }
     }

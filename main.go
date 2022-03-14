@@ -109,6 +109,14 @@ func logout(w http.ResponseWriter, r *http.Request) {
 func addToLibrary(w http.ResponseWriter, r *http.Request) {
 	book := Book{}
 	json.NewDecoder(r.Body).Decode(&book)
+	handleError(err)
+	books := []Book{}
+	err = dbx.Select(&books, "SELECT userid, googlebookid FROM library WHERE userid = ? AND googlebookid = ?", book.UserId, book.GoogleBookId)
+
+	if len(books) > 0 {
+		return
+	}
+
 	_, err := dbx.Exec("INSERT INTO library (userid, googlebookid) VALUES (?, ?)", book.UserId, book.GoogleBookId)
 	handleError(err)
 }
