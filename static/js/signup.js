@@ -74,15 +74,5 @@
             passLength.classList.remove("valid");
             passLength.classList.add("invalid");
         }
-
-        // Validate symbol
-        var symbols = /[#?!@$ %^&*-]/g;
-        if (password.value.match(symbols)) {
-            symbol.classList.remove("invalid");
-            symbol.classList.add("valid");
-        } else {
-            symbol.classList.remove("valid");
-            symbol.classList.add("invalid");
-        }
     });
 })();

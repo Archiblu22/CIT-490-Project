@@ -1,5 +1,5 @@
 ((define "body"))
-<!-- STRETCH GOAL 
+    <!-- STRETCH GOAL 
         <h1>Books For You</h1>
         Insert statement if recommended is available then
         <section id="recommended" class="results">
@@ -12,42 +12,43 @@
         Insert else statement
         <h2>No Book Recommendations Yet!</h2>
          -->
-
-<section class="results" v-for="genre in genres">
-    <div class="flex" id="search-box">
-        <h1 class="section-title">{{genre}}</h1>
-        <div class="seeMore-desktop">
+    <section class="results" v-for="genre in genres">
+        <div class="flex" id="search-box">
+            <h1 class="section-title">{{genre}}</h1>
+            <div class="seeMore-desktop">
+                <button id="{{genre}}-viewAll" class="seeMore"
+                    :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'">See More
+                </button>
+            </div>
+        </div>
+        <div class="list-book">
+            <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
+                <img class="thumbnail" v-if="book.volumeInfo.imageLinks"
+                    :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" width="128"
+                    :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'" />
+                <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="/static/no_cover_thumb.gif" alt="cover"
+                    width="128" :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'" />
+                </a>
+                <div class="book-info">
+                    <h3 class="book-title"
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+                        <a>{{ book.volumeInfo.title }}</a>
+                    </h3>
+                    <div v-if="book.volumeInfo.authors" class="book-authors"
+                        :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">{{
+                        book.volumeInfo.authors[0] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="seeMore-mobile">
             <button id="{{genre}}-viewAll" class="seeMore"
                 :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'">See More
             </button>
         </div>
-    </div>
-    <div class="list-book">
-        <div class="book" v-for="book in googleBookList[genre].items" :key="book.BookId">
-            <img class="thumbnail" v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
-                alt="cover" width="128"
-                :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'" />
-            <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="/static/no_cover_thumb.gif" alt="cover" width="128"
-                :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'" />
-            </a>
-            <div class="book-info">
-                <h3 class="book-title" :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
-                    <a>{{ book.volumeInfo.title }}</a>
-                </h3>
-                <div v-if="book.volumeInfo.authors" class="book-authors"
-                    :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">{{
-                    book.volumeInfo.authors[0] }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="seeMore-mobile">
-        <button id="{{genre}}-viewAll" class="seeMore"
-            :onclick="'document.location = &quot;results.html?genre=' + genre + '&quot;'">See More
-        </button>
-    </div>
-    <hr width="100%">
-</section>
+        <hr width="100%">
+    </section>
+</main>
 
 <script>
     const backdrop = document.querySelector('.backdrop');
@@ -83,7 +84,7 @@
 
             self.genres.forEach(genre => {
                 self.googleBookList[genre] = [];
-                axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=4&q=` + genre).then(
+                axios.get('https://www.googleapis.com/books/v1/volumes?maxResults=4&q=' + genre).then(
                     response => {
                         self.googleBookList[genre] = response.data;
                     })

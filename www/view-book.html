@@ -17,7 +17,7 @@
                         :href="'https://catalog.slcolibrary.org/polaris/search/searchresults.aspx?ctx=1.1033.0.0.1&type=Keyword&term=' + book.volumeInfo.title"
                         target="_blank">Search County Library</a></button>
             </div>
-            <button class="mylibrary" @click="addToLibrary(id)">+ My Library</button>
+            <button class="mylibrary" @click="addToLibrary(gid)">+ My Library</button>
         </div>
         <!-- STRETCH
                 Add Recommended Section of Books by Same Author
@@ -78,6 +78,7 @@
         </div>
     </section>
 </section>
+</main>
 <script>
     const backdrop = document.querySelector('.backdrop');
     const sideDrawer = document.querySelector('.mobile-nav');
@@ -100,14 +101,15 @@
         data() {
             return {
                 id: '',
+                gid: '',
                 book: {}
             }
         },
         methods: {
-            addToLibrary(id) {
+            addToLibrary(gid) {
                 axios.post(`/add-to-library`, {
-                    userid: 1,
-                    googlebookid: id
+                    userid: this.id,
+                    googlebookid: gid
                 });
             }
         },
@@ -115,8 +117,9 @@
             var self = this;
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
+            self.gid = urlParams.get('gid');
             self.id = urlParams.get('id');
-            axios.get(`https://www.googleapis.com/books/v1/volumes/` + self.id).then(
+            axios.get('https://www.googleapis.com/books/v1/volumes/' + self.gid).then(
                 response => {
                     self.book = response.data;
                 })

@@ -15,39 +15,25 @@
     <div class="signup-page">
         <div class="form-wrapper">
             <h1>Create An Account</h1>
+            <hr width="100%">
+            <p>Please enter a valid email and password. Password must be 8 characters long and contain an uppercase letter, lowercase letter, and a number.</p>
+
             <form class="login-form" action="" method="POST">
-                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="email"
-                    required />
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" v-model="email" required />
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}" v-model="password"
-                    required />
-
-                <div id="matchingMessage"></div>
-                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
-                    placeholder="Confirm Password" minlength="8" v-model="confirmPassword" required />
-                <hr>
-
-                <div id="passwordInstructions">
-                    <h3>Password must contain:</h3>
-                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-                    <p id="capital" class="invalid">An <b>uppercase</b> letter</p>
-                    <p id="number" class="invalid">A <b>number</b></p>
-                    <p id="symbol" class="invalid">A <b>symbol</b></p>
-                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-                </div>
+                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}" v-model="password" required />
 
                 <input type="submit" class="btn-filled" value="Sign Up" v-on:click="signup()" />
                 <a href="./index.html">Return to login</a>
             </form>
         </div>
-        <script src="./js/signup.js" charset="utf-8"></script>
+        <script src="/static/js/signup.js" charset="utf-8"></script>
         <script>
             const RootComponent = {
                 data() {
                     return {
                         email: '',
-                        password: '',
-                        confirmPassword: '',
+                        password: ''
 
                     }
                 },
@@ -56,7 +42,7 @@
                         var self = this;
                         axios.post('/signup', { "email": self.email, "password": self.password }).then(
                             response => {
-                                window.location.assign("/index.html");
+                                window.location.assign("./index.html");
                             }
                         );
                         return true;

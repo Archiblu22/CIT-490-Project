@@ -12,7 +12,7 @@
     </div>
     <div class="list-book">
         <div class="book" v-for="book in googleBookList.items" :key="book.BookId"
-            :onclick="'document.location = &quot;view-book.html?id=' + book.id + '&quot;'">
+            :onclick="'document.location = &quot;view-book.html?gid=' + book.id + '&amp;id=' + id + '&quot;'">
             <img class="thumbnail" v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
                 alt="cover" width="128" />
             <img class="thumbnail" v-if="!book.volumeInfo.imageLinks" src="/static/no_cover_thumb.gif" alt="cover"
@@ -31,7 +31,7 @@
         <button class="seeMore" v-on:click="showMore()">See More</button>
     </div>
 </section>
-
+</main>
 <script>
     const backdrop = document.querySelector('.backdrop');
     const sideDrawer = document.querySelector('.mobile-nav');
@@ -53,6 +53,7 @@
     const RootComponent = {
         data() {
             return {
+                id: 0,
                 search: "",
                 googleBookList: [],
                 startIndex: 0,
@@ -69,7 +70,7 @@
             },
             results(startIndex) {
                 var self = this;
-                axios.get(`https://www.googleapis.com/books/v1/volumes?maxResults=16&startIndex=` + startIndex + `&q=` + this.search).then(
+                axios.get('https://www.googleapis.com/books/v1/volumes?maxResults=16&startIndex=' + startIndex + '&q=' + this.search).then(
                     response => {
                         self.searched = true;
                         self.googleBookList = response.data;
@@ -81,6 +82,7 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const genre = urlParams.get('genre')
+            self.id = urlParams.get('id')
             if (genre) {
                 self.search = genre
                 self.results(0);

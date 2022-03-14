@@ -16,9 +16,9 @@
         $(document).ready(function () {
             const urlParams = new URLSearchParams(window.location.search);
             let id = urlParams.get('id')
-            $('#home').attr('href', './home.html?id=' + id);
-            $('#mylibrary').attr('href', './mylibrary.html?id=' + id);
-            $('#search').attr('href', './results.html?id=' + id);
+            $('.link-home').attr('href', './home.html?id=' + id);
+            $('.link-mylibrary').attr('href', './mylibrary.html?id=' + id);
+            $('.link-search').attr('href', './results.html?id=' + id);
         });
     </script>
 </head>
@@ -31,13 +31,13 @@
             <nav class="main-header__nav">
                 <ul class="main-header__item-list">
                     <li class="main-header__item">
-                        <a id="home" href="./home.html">Home</a>
+                        <a class="link-home" href="./home.html">Home</a>
                     </li>
                     <li class="main-header__item">
-                        <a id="mylibrary" href="./mylibrary.html">My Library</a>
+                        <a class="link-mylibrary" href="./mylibrary.html">My Library</a>
                     </li>
                     <li class="main-header__item">
-                        <a id="search" href="./results.html">Search</a>
+                        <a class="link-search" href="./results.html">Search</a>
                     </li>
                 </ul>
                 <ul class="main-header__item-list">
@@ -51,15 +51,15 @@
         <nav class="mobile-nav">
             <ul class="mobile-nav__item-list">
                 <li class="mobile-nav__item">
-                    <a id="home" href="./home.html">Home</a>
+                    <a class="link-home" href="./home.html">Home</a>
                 </li>
                 <hr width="75%">
                 <li class="mobile-nav__item">
-                    <a id="mylibrary" href="./mylibrary.html">My Library</a>
+                    <a class="link-mylibrary" href="./mylibrary.html">My Library</a>
                 </li>
                 <hr width="75%">
                 <li class="mobile-nav__item">
-                    <a id="search" href="./results.html">Search</a>
+                    <a class="link-search" href="./results.html">Search</a>
                 </li>
                 <hr width="75%">
                 <li class="mobile-nav__item">
@@ -71,7 +71,7 @@
     <div class="hero-img">
         <img src="/static/Books-Hero-Image.jpg" alt="book hero image">
     </div>
-    <main id="app">((template "body"))</main>
+    <main id="app">((template "body"))
     <div class="footer">
         <p class="top"><a href="#top">Back to top</a></p>
         <p>&copy; 2022 | Created with <a href="https://go.dev/">Go</a> | Pierre Aguirre</p>

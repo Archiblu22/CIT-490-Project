@@ -24,7 +24,7 @@
         </div>
     </div>
 </section>
-
+</main>
 <script>
     const backdrop = document.querySelector('.backdrop');
     const sideDrawer = document.querySelector('.mobile-nav');
@@ -60,7 +60,7 @@
 
             axios.get(`/book-list?id=` + self.id).then(response => {
                 response.data.forEach(library =>
-                    axios.get(`https://www.googleapis.com/books/v1/volumes/` + library.googlebookid).then(response => {
+                    axios.get('https://www.googleapis.com/books/v1/volumes/' + library.googlebookid).then(response => {
                         self.googleBookList.push(response.data);
                     })
                 );
