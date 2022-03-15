@@ -23,12 +23,13 @@
                 Add Recommended Section of Books by Same Author -->
                 <div class="recommended">
                     <h4>More by this Author:</h4>
-                    <div class="recommend-list-book">
+                    <div class="recommend-list-book" v-for="book in related.items" :key="book.BookId" :onclick="'document.location = &quot;view-book.html?gid=' + book.id + '&amp;id=' + id + '&quot;'">
                         <div class="recommended-book">
-                            <img class="recommended-thumbnail" src="no_cover_thumb.gif" alt="cover" width="64" />
+                            <img class="recommended-thumbnail" v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail" alt="cover" width="64" />
+                            <img class="recommended-thumbnail" v-if="!book.volumeInfo.imageLinks" src="/static/no_cover_thumb.gif" alt="cover" width="64"/>
                             <div class="recommended-book-info">
                                 <h3 class="recommended-book-title">
-                                    <a>{{ book.volumeInfo.title }}</a>
+                                    <a :href="book.volumeInfo.previewLink" target="_blank">{{ book.volumeInfo.title }}</a>
                                 </h3>
                                 <div v-if="book.volumeInfo.authors" class="book-authors">{{ book.volumeInfo.authors[0]
                                     }}
@@ -125,7 +126,7 @@
             axios.get('https://www.googleapis.com/books/v1/volumes/' + self.gid).then(
                 response => {
                     self.book = response.data;
-                    axios.get('https://www.googleapis.com/books/v1/volumes?q=inauthor:"' + self.books.volumeInfo.authors[0] + '"').then(
+                    axios.get('https://www.googleapis.com/books/v1/volumes?maxResults=3&q=inauthor:"' + self.book.volumeInfo.authors[0] + '"').then(
                         response => {
                             self.related = response.data;
                         }

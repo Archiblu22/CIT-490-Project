@@ -2,6 +2,10 @@ body {
   background-color: #1b4b47;
 }
 
+h1 {
+  text-align: center;
+}
+
 .login-body {
   display: block;
 }
