@@ -262,7 +262,8 @@ h2 {
 }
 
 .book-title a,
-.recommend-list-book a {
+.recommend-list-book a,
+.list-book a.link-search {
   color: #007981;
   text-decoration: none;
 }

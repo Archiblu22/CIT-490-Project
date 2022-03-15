@@ -4,7 +4,9 @@
         <h1 class="section-title">My Library</h1>
     </div>
     <div class="list-book">
-        <div v-if="googleBookList.length==0">Nothing yet...</div>
+        <div v-if="googleBookList.length==0">
+            <h4>Nothing yet. <a class="link-search" href="./results.html">Search</a> for books to add to your library.</h4>
+        </div>
         <div class="book" v-for="book in googleBookList" :key="book.BookId">
             <img class="thumbnail" v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail"
                 alt="cover" width="128"
