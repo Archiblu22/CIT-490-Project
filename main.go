@@ -47,6 +47,9 @@ func main() {
 	log.Println("Listening on :" + port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 
+	// log.Println("Listening on :3000")
+	// log.Fatal(http.ListenAndServe(":3000", nil))
+
 }
 
 type Login struct {
