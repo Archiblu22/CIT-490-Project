@@ -25,6 +25,7 @@ func handleError(err error) {
 
 func main() {
 	port := os.Getenv("PORT")
+
 	dbx, err = sqlx.Open("sqlite3", "database/books.db")
 	handleError(err)
 	_, err = dbx.Exec("SELECT 1")
