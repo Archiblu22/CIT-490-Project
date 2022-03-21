@@ -24,7 +24,7 @@ func handleError(err error) {
 }
 
 func main() {
-	// port := os.Getenv("PORT")
+	port := os.Getenv("PORT")
 
 	dbx, err = sqlx.Open("sqlite3", "database/books.db")
 	handleError(err)
@@ -44,11 +44,11 @@ func main() {
 	http.HandleFunc("/signup", addNewUser)
 	http.HandleFunc("/logged-in", loggedIn)
 
-	// log.Println("Listening on :" + port)
-	// log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Println("Listening on :" + port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 
-	log.Println("Listening on :3000")
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	// log.Println("Listening on :3000")
+	// log.Fatal(http.ListenAndServe(":3000", nil))
 
 }
 
